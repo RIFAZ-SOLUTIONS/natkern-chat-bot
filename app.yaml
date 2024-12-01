@@ -1,0 +1,17 @@
+runtime: nodejs22
+
+env_variables:
+  WEBHOOK_VERIFY_TOKEN: "NGROK"
+  GRAPH_API_TOKEN: "EAAGXfnDTLvcBO8Gj6XFeMF8L4AUELlVT99UjADiZCZCCjIHAgAND9Mve9o8pMZAkQKMZA3cCKavB4MR35lf5WZCWFi301JZBXt8lyZBFhLz5764WO5NhU75tnG4vh3fe3iIRGSG5fuRZBshcGZBZAUyvwuOmvRZCmZBK4v1WTgKpe4moR5DTGLFqfH3UgkDI4A1D6AhyMvipiEW6obTNTV9EzKqcwdTzFyEZD"
+  BUSINESS_PHONE_NUMBER_ID: "282470614960295"
+  FIREBASE_TYPE: "service_account"
+  FIREBASE_PROJECT_ID: "natkern-booking"
+  FIREBASE_PRIVATE_KEY_ID: "5a6c41dd17f3ac8fcbb3461ef1d1db1b222bf6f1"
+  FIREBASE_CLIENT_EMAIL: "firebase-adminsdk-s2f2a@natkern-booking.iam.gserviceaccount.com"
+  FIREBASE_CLIENT_ID: "104774771059636750137"
+  FIREBASE_AUTH_URI: "https://accounts.google.com/o/oauth2/auth"
+  FIREBASE_TOKEN_URI: "https://oauth2.googleapis.com/token"
+  FIREBASE_AUTH_PROVIDER_X509_CERT_URL: "https://www.googleapis.com/oauth2/v1/certs"
+  FIREBASE_CLIENT_X509_CERT_URL: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-s2f2a%40natkern-booking.iam.gserviceaccount.com"
+  UNIVERSE_DOMAIN: "googleapis.com"
+  FIREBASE_DATABASE_URL: "https://natkern-booking-default-rtdb.firebaseio.com/"
