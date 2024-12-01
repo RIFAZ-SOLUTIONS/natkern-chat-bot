@@ -3,8 +3,13 @@ import axios from "axios";
 import admin from "firebase-admin";
 import nodemailer from "nodemailer";
 import { createRequire } from 'module';
+import * as path from "node:path";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const require = createRequire(import.meta.url);
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const serviceAccount = require("./natkern-booking-firebase-adminsdk.json");
 
@@ -713,8 +718,9 @@ app.get("/", (req, res) => {
 Checkout README.md to start.</pre>`);
 });
 
-app.get("/terms", (req, res) => {
-    res.sendFile("/app/terms.html");
+app.get("/privacy", (req, res) => {
+    const filePath = path.resolve(__dirname, 'app', 'privacy.html');
+    res.sendFile(filePath);
 });
 
 // Start the server
