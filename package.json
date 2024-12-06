@@ -2,10 +2,10 @@
   "name": "natkern-chat-bot",
   "version": "1.0.0",
   "description": "A chat bot to book services for Natkern Company limited",
-  "main": "oldServer.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node oldServer.js"
+    "start": "node server.js"
   },
   "author": "Ridhiwan Mseya",
   "dependencies": {

@@ -1,7 +1,11 @@
-import { handleTextMessage, handleInteractiveMessage } from "../handlers/messageHandler.js";
+import {handleTextMessage, handleInteractiveMessage, sendInteractiveMessage} from "../handlers/messageHandler.js";
 import * as path from "node:path";
-import {WEBHOOK_VERIFY_TOKEN} from "../config/config.js";
+import {BUSINESS_PHONE_NUMBER_ID, WEBHOOK_VERIFY_TOKEN} from "../config/config.js";
+import {greetings} from "../config/constants.js";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default (app) => {
     app.post("/webhook", async (req, res) => {
