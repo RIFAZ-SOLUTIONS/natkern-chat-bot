@@ -3,4 +3,4 @@ node_modules/
 
 # Environment variables
 .env
-natkern-booking-firebase-adminsdk.json
+data/natkern-booking-firebase-adminsdk.json
