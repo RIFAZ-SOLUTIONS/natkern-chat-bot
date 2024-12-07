@@ -26,6 +26,7 @@ export const cancelState = {
 
 export const handleNextState = async (userState, fromNumber) => {
     const nextState = states[userState.state];
+    const prevState = states[userState.state-1];
 
     if (!nextState) {
         console.log("Booking completed.");
@@ -61,43 +62,7 @@ export const handleNextState = async (userState, fromNumber) => {
             console.error("No prompt or interactive message for this state");
         }
     } else {
-        switch (userState.state) {
-            case 2: // eventType
-                if (userState.data.eventType === "Others") {
-                    userState.state = 9; // eventDetails index
-                    await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, states[9].prompt);
-                    userState.hasPrompted = true;
-                    return;
-                }
-                break;
-
-            case 4: // eventRegion
-                if (userState.data.eventRegion === "Others") {
-                    userState.state = 10; // eventRegionDetails index
-                    await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, states[10].prompt);
-                    userState.hasPrompted = true;
-                    return;
-                }
-                break;
-
-            case 6: // services
-                if (userState.data.services === "Others") {
-                    userState.state = 11; // serviceDetails index
-                    await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, states[11].prompt);
-                    userState.hasPrompted = true;
-                    return;
-                }
-                break;
-
-            default:
-                // Continue to the next state if "Others" is not selected
-                userState.state++;
-                userState.hasPrompted = false;
-                break;
-        }
-
-        // Continue to the next state
-        await handleNextState(userState, fromNumber);
+        console.log('No prompt has been made.')
     }
 };
 

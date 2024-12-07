@@ -94,10 +94,9 @@ export const handleTextMessage = async (fromNumber, text) => {
             if (selectedEventType) {
                 userState.data.eventType = selectedEventType.title;
 
-                if (selectedEventType.id === "others") {
-                    userState.state++;
+                if (selectedEventType.id === "Others") {
                     userState.hasPrompted = false;
-                    const nextState = states[userState.state];
+                    const nextState = states[9];
                     if (nextState?.prompt) {
                         await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, nextState.prompt);
                     }
@@ -147,7 +146,7 @@ export const handleTextMessage = async (fromNumber, text) => {
                 userState.hasPrompted = false;
                 delete userState.currentRegionPage;
 
-                if (selectedRegion.id === "others") {
+                if (selectedRegion.id === "Others") {
                     // Handle "Others" option
                     const nextState = states[userState.state];
                     if (nextState?.prompt) {
@@ -182,7 +181,7 @@ export const handleTextMessage = async (fromNumber, text) => {
             if (selectedService) {
                 userState.data.services = selectedService.title;
 
-                if (selectedService.id === "others") {
+                if (selectedService.id === "Others") {
                     userState.state++;
                     userState.hasPrompted = false;
                     const nextState = states[userState.state];
@@ -214,7 +213,15 @@ export const handleTextMessage = async (fromNumber, text) => {
             break;
 
         case "eventDetails":
+            userState.data[currentState.key] = text.trim();
+            userState.state++;
+            await handleNextState(userState, fromNumber);
+            break;
         case "eventRegionDetails":
+            userState.data[currentState.key] = text.trim();
+            userState.state++;
+            await handleNextState(userState, fromNumber);
+            break;
         case "serviceDetails":
             userState.data[currentState.key] = text.trim();
             userState.state++;
