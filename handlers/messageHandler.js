@@ -270,7 +270,7 @@ export const sendInteractiveMessage = async (businessPhoneNumberId, to) => {
         interactive: {
             type: "list",
             body: {
-                text: "Welcome! What would you like to do?",
+                text: "Welcome to Natkern! What would you like to do?\n Karibu Natkern! Chagua huduma unayotaka.",
             },
             action: {
                 button: "Options",
