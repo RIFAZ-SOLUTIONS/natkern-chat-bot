@@ -5,18 +5,18 @@ import {sendEventTypeList, sendRegionList, sendServicesTiles, sendTextMessage} f
 export const userStates = {};
 
 export const states = [
-    { key: "customerName", prompt: "Please enter your full name:\n Tafadhali ingiza jina lako kamili:" },
-    { key: "customerPhone", prompt: "Please enter your phone number (Include country code, e.g., +255777111222):\n Tafadhali ingiza namba yako ya simu (Mfano +255777111222)" },
+    { key: "customerName", prompt: "Please enter your full name:\nTafadhali ingiza jina lako kamili:" },
+    { key: "customerPhone", prompt: "Please enter your phone number (Include country code, e.g., +255777111222):\nTafadhali ingiza namba yako ya simu (Mfano +255777111222)" },
     { key: "eventType", hasOthers: true },
-    { key: "eventDate", prompt: "Please enter the event date (dd/mm/yyyy):\n Tafadhali ingiza tarahe ya tukio (dd/mm/yyyy):" },
+    { key: "eventDate", prompt: "Please enter the event date (dd/mm/yyyy):\nTafadhali ingiza tarahe ya tukio (dd/mm/yyyy):" },
     { key: "eventRegion", hasOthers: true },
-    { key: "eventLocation", prompt: "Please enter the event location:\n Tafadhali ingiza eneo la tukio:" },
+    { key: "eventLocation", prompt: "Please enter the event location:\nTafadhali ingiza eneo la tukio:" },
     { key: "services", hasOthers: true },
-    { key: "duration", prompt: "Please enter the duration of the event (in hours or days):\n Tafadhali ingiza urefu wa mda wa tukio (Mfano lisaa 1, siku 2, n.k):" },
-    { key: "thanks", prompt: "Thank You for Choosing Natkern! We will get in touch with you promptly.\n Asante kwa kuchangua huduma za Natkern! Tutakurudia hivi punde." },
-    { key: "eventDetails", prompt: "Please describe your event type:\n Tafadhali eleza aina ya tukio:" }, // Triggered if "Others" is selected
-    { key: "eventRegionDetails", prompt: "Please specify the region for your event:\n Tafadhali elezea mkoa wa tukio:" }, // Triggered if "Others" is selected
-    { key: "serviceDetails", prompt: "Please describe the services you need:\n Tafadhali elezea aina ya huduma unayohitaji:" }, // Triggered if "Others" is selected
+    { key: "duration", prompt: "Please enter the duration of the event (in hours or days):\nTafadhali ingiza urefu wa mda wa tukio (Mfano lisaa 1, siku 2, n.k):" },
+    { key: "thanks", prompt: "Thank You for Choosing Natkern! We will get in touch with you promptly.\nAsante kwa kuchangua huduma za Natkern! Tutakurudia hivi punde." },
+    { key: "eventDetails", prompt: "Please describe your event type:\nTafadhali eleza aina ya tukio:" }, // Triggered if "Others" is selected
+    { key: "eventRegionDetails", prompt: "Please specify the region for your event:\nTafadhali elezea mkoa wa tukio:" }, // Triggered if "Others" is selected
+    { key: "serviceDetails", prompt: "Please describe the services you need:\nTafadhali elezea aina ya huduma unayohitaji:" }, // Triggered if "Others" is selected
 ];
 
 export const cancelState = {
@@ -61,22 +61,43 @@ export const handleNextState = async (userState, fromNumber) => {
             console.error("No prompt or interactive message for this state");
         }
     } else {
-        if (nextState.hasOthers && userState.data[nextState.key] === "Others") {
-            const detailsStateKey = `${nextState.key}Details`; // Dynamically find the next details state key
-            const detailsState = states.find((state) => state.key === detailsStateKey);
-            if (detailsState) {
-                console.log(`Prompting for additional details for ${detailsStateKey}`);
-                await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, detailsState.prompt);
-                userState.state = states.indexOf(detailsState); // Move to the details state
-                userState.hasPrompted = true;
-            } else {
-                console.error(`Details state for ${detailsStateKey} not found.`);
-            }
-        } else {
-            userState.state++;
-            userState.hasPrompted = false;
-            await handleNextState(userState, fromNumber);
+        switch (userState.state) {
+            case 2: // eventType
+                if (userState.data.eventType === "Others") {
+                    userState.state = 9; // eventDetails index
+                    await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, states[9].prompt);
+                    userState.hasPrompted = true;
+                    return;
+                }
+                break;
+
+            case 4: // eventRegion
+                if (userState.data.eventRegion === "Others") {
+                    userState.state = 10; // eventRegionDetails index
+                    await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, states[10].prompt);
+                    userState.hasPrompted = true;
+                    return;
+                }
+                break;
+
+            case 6: // services
+                if (userState.data.services === "Others") {
+                    userState.state = 11; // serviceDetails index
+                    await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, states[11].prompt);
+                    userState.hasPrompted = true;
+                    return;
+                }
+                break;
+
+            default:
+                // Continue to the next state if "Others" is not selected
+                userState.state++;
+                userState.hasPrompted = false;
+                break;
         }
+
+        // Continue to the next state
+        await handleNextState(userState, fromNumber);
     }
 };
 
