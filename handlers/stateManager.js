@@ -1,6 +1,7 @@
 import {bookingsRef, BUSINESS_PHONE_NUMBER_ID} from "../config/config.js";
 import {sendBookingEmail} from "../services/emailService.js";
 import {sendEventTypeList, sendRegionList, sendServicesTiles, sendTextMessage} from "./messageHandler.js";
+import {saveBooking} from "../services/firebaseService.js";
 
 export const userStates = {};
 
@@ -29,7 +30,7 @@ export const handleNextState = async (userState, fromNumber) => {
 
     if (!nextState) {
         console.log("Booking completed.");
-        bookingsRef.push(userState.data);
+        await saveBooking(userState.data);
         await sendBookingEmail(userState.data);
         await sendTextMessage(
             BUSINESS_PHONE_NUMBER_ID,
@@ -53,7 +54,14 @@ export const handleNextState = async (userState, fromNumber) => {
             console.log("Sending services list...");
             await sendServicesTiles(BUSINESS_PHONE_NUMBER_ID, fromNumber);
             userState.hasPrompted = true;
-        } else if (nextState.prompt) {
+        } else if(nextState.key === "thanks"){
+            await saveBooking(userState.data);
+            await sendBookingEmail(userState.data);
+            console.log("Sending prompt for thanks...");
+            await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, nextState.prompt);
+            userState.hasPrompted = true;
+        }
+        else if (nextState.prompt) {
             console.log("Sending prompt for next state...");
             await sendTextMessage(BUSINESS_PHONE_NUMBER_ID, fromNumber, nextState.prompt);
             userState.hasPrompted = true;

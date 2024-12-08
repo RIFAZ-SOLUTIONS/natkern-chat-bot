@@ -23,7 +23,7 @@ export const sendBookingEmail = async (bookingDetails) => {
     `;
 
     await transporter.sendMail({
-        from: SMTP_USER,
+        from: "'Natkern Booking' <support@rifazsolutions.com>",
         to: ADMIN_EMAIL,
         subject: "New Booking",
         html: emailBody,

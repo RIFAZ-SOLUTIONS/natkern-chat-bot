@@ -6,5 +6,9 @@ export const getBookingsByPhone = async (customerPhone) => {
 };
 
 export const saveBooking = async (bookingData) => {
-    await bookingsRef.push(bookingData);
+    const sanitizedData = Object.fromEntries(
+        Object.entries(bookingData).filter(([key, value]) => value !== undefined)
+    );
+
+    await bookingsRef.push(sanitizedData);
 };
