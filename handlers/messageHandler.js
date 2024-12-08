@@ -2,6 +2,7 @@ import axios from "axios";
 import {GRAPH_API_TOKEN, BUSINESS_PHONE_NUMBER_ID, bookingsRef} from "../config/config.js";
 import { eventTypes, regions, services } from "../config/constants.js";
 import {cancelState, handleNextState, states, userStates, validateInput} from "./stateManager.js";
+import {sendBookingEmail} from "../services/emailService.js";
 
 export const handleInteractiveMessage = async (fromNumber, selectedOption) => {
     if (selectedOption === "menu_book") {
@@ -207,9 +208,17 @@ export const handleTextMessage = async (fromNumber, text) => {
 
         case "thanks":
             userState.data.duration = text.trim();
-            delete userState.state;
             userState.hasPrompted = false;
-            await handleNextState(userState, fromNumber);
+            console.log("Booking completed.");
+            bookingsRef.push(userState.data);
+            await sendBookingEmail(userState.data);
+            await sendTextMessage(
+                BUSINESS_PHONE_NUMBER_ID,
+                fromNumber,
+                `Booking confirmed! Details:\n\n${JSON.stringify(userState.data, null, 2)}`
+            );
+            delete userState.state;
+            delete userStates[fromNumber];
             break;
 
         case "eventDetails":

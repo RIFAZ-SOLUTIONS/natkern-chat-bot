@@ -26,7 +26,6 @@ export const cancelState = {
 
 export const handleNextState = async (userState, fromNumber) => {
     const nextState = states[userState.state];
-    const prevState = states[userState.state-1];
 
     if (!nextState) {
         console.log("Booking completed.");

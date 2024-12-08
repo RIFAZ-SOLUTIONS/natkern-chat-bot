@@ -4,3 +4,8 @@ env_variables:
   WEBHOOK_VERIFY_TOKEN: "NGROK"
   GRAPH_API_TOKEN: "EAAGXfnDTLvcBO8wXUPnpqmgMb3ISWcdycOhjwDd6Pm3CWrBZA1rMJM7ZBTKa397HeBLKl9OGPO8u9PVaPRtyWcEwbQhidmgpgTYdotFxivufZBh9kneWHIlKZAqaxss6jLJPpyoMrh4hXZBhvUzZAmIX3zoAGvtpOM6NMCLXZCNtEMyt7ZAAKv7bczQxdXFgCUszBAZDZD"
   BUSINESS_PHONE_NUMBER_ID: "282470614960295"
+  SMTP_HOST: "mail.smtp2go.com"
+  SMTP_PORT: "465"
+  SMTP_USER: "natkerntz.com"
+  SMTP_PASS: "bPlpaxIfsKm3fsmu"
+  ADMIN_EMAIL: "ridhiwanmseya@gmail.com"
